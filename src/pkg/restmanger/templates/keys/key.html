@@ -1,0 +1,125 @@
+<h2 class="text-center">key management</h2>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm">
+                                {{.Key.Name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {{ if .Locked }}
+                        <div class="row">
+                            <div class="col-sm">
+                                <i class="fa fa-2x fa-lock float right" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-sm">
+                                <form action="/keys" method="post">
+                                    <input type="text" hidden name="id" id="id" value="{{.Key.ID}}"/>
+                                    <input type="text" hidden name="action" id="action"
+                                           value="PATCH"/>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="form-group float-right">
+                                                <input type="password" class="form-control input-sm"
+                                                       id="passphrase"
+                                                       name="passphrase"
+                                                       placeholder="passphrase"
+                                                       value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <button type="submit" class="float-right btn btn-dark">
+                                                unlock
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {{else}}
+                        <div class="row">
+                            <div class="col-sm">
+                                <i class="fa fa-2x fa-unlock float right" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <form action="/keys" method="post">
+                                <input type="text" hidden name="id" id="id" value="{{.Key.ID}}"/>
+                                <input type="text" hidden name="action" id="action"
+                                       value="DELETE"/>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="form-group float-right">
+                                            <input type="password" class="form-control input-sm"
+                                                   id="passphrase"
+                                                   name="passphrase"
+                                                   placeholder="passphrase"
+                                                   value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <button type="submit" class="float-right btn btn-dark">
+                                            delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<hr>
+
+<div class="container">
+    {{if not .Locked }}
+        <div class="row">
+            <div class="col-sm">
+                <div class="container">
+                    <div class="card text-white bg-danger mb-3">
+                        <div class="card-header">
+                            private key
+                        </div>
+                        <div class="card-body">
+
+                       <textarea rows="7" cols="20" name="message" placeholder="text to be decrypted..."
+                                 aria-describedby="messageHelp" class="form-control" id="message"
+                                 name="message">{{.Key.PrivKey}}</textarea>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{end}}
+    <hr>
+    <div class="row">
+        <div class="col-sm">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        public key
+                    </div>
+                    <div class="card-body">
+                         <textarea rows="7" cols="20" name="message" placeholder="text to be decrypted..."
+                                   aria-describedby="messageHelp" class="form-control" id="message"
+                                   name="message">{{.Key.PubKey}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{ template "footer.html" }}
